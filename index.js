@@ -106,6 +106,10 @@ const client = new MongoClient(uri, {
     
   
     //search
+    app.get('/search', async (req, res) => {
+      const searchTerm = req.query.query;
+      const regex = new RegExp(searchTerm, 'i');
+      const query = { ProductName: { $regex: regex } };
   
       try {
         const result = await toysCollection.find(query).toArray();
