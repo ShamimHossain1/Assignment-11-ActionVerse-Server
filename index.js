@@ -50,6 +50,11 @@ const client = new MongoClient(uri, {
         res.send(result);
       })
   
+      app.get('/allToys', async (req, res) => {
+        const cursor = toysCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      })
       
     //api http://localhost:5000/search?query=
   
