@@ -15,7 +15,43 @@ app.use(express.json());
 const uri = "mongodb+srv://toys:CISXvktUyAagLWCz@cluster0.n1ihip4.mongodb.net/?retryWrites=true&w=majority";
 
 /// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-
+const client = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+    // ,
+    
+    //   useNewUrlParser: true,
+    //   useUnifiedTopology: true,
+    //   maxPoolSize: 10,
+    
+  });
+  
+  async function run() {
+    try {
+      client.connect();
+      // Connect the client to the server	(optional starting in v4.7)
+      // client.connect((err) =>{
+      //   if (err) {
+      //     console.error(err);
+      //     return;
+      //   }
+      // });
+  
+      //database operations
+      const toysCollection = client.db('toys').collection('toysCollections');
+  
+      app.post('/toys', async (req, res) => {
+        const newToys = req.body;
+        //console.log(newCoffee);
+        const result = await toysCollection.insertOne(newToys);
+        res.send(result);
+      })
+  
+      
+    //api http://localhost:5000/search?query=
   
     
   
